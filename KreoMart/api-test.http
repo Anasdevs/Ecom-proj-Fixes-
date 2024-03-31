@@ -1,0 +1,31 @@
+POST  https://kreomart.onrender.com/api/auth/users/ 
+Content-Type: application/json
+
+{
+    "email": "rishabh99@gmail.com",
+    "username": "Rishabh1234",
+    "password": "Tisispassword1"
+}
+
+###
+
+POST  https://kreomart.onrender.com/api/auth/jwt/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "Rishabh1234",
+    "password": "Hellowbuddy"
+}
+
+###
+
+GET https://kreomart.onrender.com/api/auth/users/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxNDk2MDgyLCJpYXQiOjE2OTE0OTU3ODIsImp0aSI6ImZkYmMxYzg5MzhmYjQ1NWY5NjEzZmI4MDNjOWE2NTI0IiwidXNlcl9pZCI6Nn0.na5f03Vv81j1FBxskOt0hCAi9WjxKF0rGVyxk_dqatQ
+
+###
+
+
+GET https://kreomart.onrender.com/api/auth/users/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxNTEwNzY4LCJpYXQiOjE2OTE1MTA0NjgsImp0aSI6IjA0YjIyYzcyNTBjYzQ4MzA5NjNjN2EyYjZmYTQ2YTU4IiwidXNlcl9pZCI6OX0.ndTYxcFWv2phe6VEhWB0s89DEnccbVZLFzGQg1W_K3A

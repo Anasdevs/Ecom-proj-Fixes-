@@ -1,0 +1,81 @@
+/* Spinner.module.css */
+
+.spinnerContainer {
+    width: 5;
+    height: 5;
+    margin: 0;
+    background-color: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+  }
+  
+  .spinner {
+    width: 2vmax;
+    height: 2vmax;
+    border-right: 4px solid #ffffff;
+    border-radius: 100%;
+    animation: spinRight 800ms linear infinite;
+  }
+
+  .spinner.small {
+    width: 20px;
+    height: 20px;
+    border-right: 2px solid #ffffff;
+}
+
+.spinner.medium {
+    width: 4vmax;
+    height: 4vmax;
+    border-right: 4px solid #ffffff;
+}
+
+.spinner.large {
+    width: 6vmax;
+    height: 6vmax;
+    border-right: 6px solid #ffffff;
+}
+  
+  .spinner:before,
+  .spinner:after {
+    content: '';
+    width: 6vmax;
+    height: 6vmax;
+    display: block;
+    position: absolute;
+    top: calc(50% - 3vmax);
+    left: calc(50% - 3vmax);
+    border-left: 3px solid #ffffff;
+    border-radius: 100%;
+    animation: spinLeft 800ms linear infinite;
+  }
+  
+  .spinner:after {
+    width: 4vmax;
+    height: 4vmax;
+    top: calc(50% - 2vmax);
+    left: calc(50% - 2vmax);
+    border: 0;
+    border-right: 2px solid #ffffff;
+    animation: none;
+  }
+  
+  @keyframes spinLeft {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(720deg);
+    }
+  }
+  
+  @keyframes spinRight {
+    from {
+      transform: rotate(360deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+  }
+  

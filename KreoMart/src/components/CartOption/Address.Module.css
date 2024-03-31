@@ -1,0 +1,15 @@
+.custom-radio {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.custom-radio input[type="radio"] {
+  order: 2;
+}
+
+.custom-radio .radio-label {
+  order: 1;
+  margin-right: 10px;
+}

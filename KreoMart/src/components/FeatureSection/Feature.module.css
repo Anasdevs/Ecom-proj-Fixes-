@@ -1,0 +1,11 @@
+.feature{
+    display: flex;
+    flex-direction: row;
+    margin: 2rem auto;
+    
+    
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 9%;
+
+}

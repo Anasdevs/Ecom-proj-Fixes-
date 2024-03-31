@@ -1,0 +1,114 @@
+.sec{
+    width: 80%;
+    margin: 4rem auto;
+
+}
+
+.sec_nav{
+    --tw-text-opacity: 1;
+    color: rgb(100 116 139 / var(--tw-text-opacity));
+    margin: 0  1rem;
+    cursor: pointer;
+}
+
+.active{
+    --tw-text-opacity: 1;
+    color: rgb(0 0 0 / var(--tw-text-opacity));
+    border-bottom: 2px solid #000;
+}
+
+.product_image_container {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+  }
+  
+  .product_image {
+    position: absolute;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+
+    height: 100%;
+    object-fit: cover;
+  }
+
+
+.product_card_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Align cards to the left */
+    gap: 1rem; /* Add gap between cards */
+  }
+  
+  .product_card {
+    flex-basis: calc(25% - 1rem);/* Specify width as 25% of the container */
+    padding: 1rem;
+    box-sizing: border-box; /* Include padding in width calculation */
+    /* border: 1px solid #ccc; */
+    /* border-radius: 8px; */
+    text-align: center;
+    background-color: #F9F9FB;
+  }
+  
+  .wishlist_icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #ccc;
+    background-color: transparent;
+    border: 1px;
+    outline: black;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .wishlist_icon:hover {
+    color: red;
+  }
+  
+  
+  .product_title {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+  }
+  
+  .product_description {
+    margin-top: 0.5rem;
+    color: #666;
+  }
+  
+  .product_price {
+    justify-self: left;
+    margin-top: 0.5rem;
+  }
+  
+  
+  @media screen and (max-width: 1200px) {
+    .product_card {
+      flex-basis: calc(33.33% - 1rem); /* Specify flex-basis as 33.33% minus the gap on large screens */
+    }
+  }
+  
+  @media screen and (max-width: 1024px) {
+    .product_card {
+      flex-basis: calc(50% - 1rem); /* Specify flex-basis as 50% minus the gap on tablets */
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .product_card {
+      flex-basis: calc(100% - 1rem); /* Specify flex-basis as 100% minus the gap on mobile */
+    }
+  }
+
+  
+  
+  
+
+
+
