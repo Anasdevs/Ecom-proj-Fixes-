@@ -9,6 +9,9 @@ import useRazorpay from "react-razorpay";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { UseCartStore } from "@/store/store";
+import { shallow } from "zustand/shallow";
+import { getApis } from "@/api/client";
+
 interface Props {
   data: CartDetail;
   label: string;
@@ -62,6 +65,8 @@ const Checkout: React.FC<Props> = ({
     orderData.total_amount !== null &&
     orderData.convenience_fee !== null;
 
+    
+
   useEffect(() => {
     const fetchCheckoutDetails = async () => {
       try {
@@ -86,6 +91,14 @@ const Checkout: React.FC<Props> = ({
 
     fetchCheckoutDetails();
   }, [orderaddress?.id, isDataValid]);
+
+  useEffect(() => {
+    const unsubscribe = UseCartStore.subscribe(updateCartData, (state) => state.cart, {
+      equalityFn: shallow,
+    });
+  
+    return () => unsubscribe();
+  }, []);
 
   const razorPay = async () => {
     try {
@@ -135,17 +148,17 @@ const Checkout: React.FC<Props> = ({
             razorpay_payment_id: response.razorpay_payment_id,
             razorpay_signature: response.razorpay_signature,
           };
-
+      
           // Make the postConfirmOrder request
           const confirmorder = await postApis.postConfirmOrder(
             response.razorpay_order_id,
             response.razorpay_payment_id,
             response.razorpay_signature
           );
-
+      
           // Handle the confirmation response as needed
           console.log("Confirm Order response: ", confirmorder);
-
+      
           if (confirmorder?.status == 200) {
             console.log("confirmed. Your order is placed!!!");
             return router.push("/orderplaced");
@@ -240,6 +253,27 @@ const Checkout: React.FC<Props> = ({
     }
   };
 
+  const updateCartData = async () => {
+    try {
+      const { cart } = UseCartStore.getState();
+      setCartData(cart);
+  
+      // Update the item count
+      const latestCartData = await getApis.getCartDetail();
+  
+      if (latestCartData) {
+        setCartData({
+          ...latestCartData,
+          count: cart.count, // Use the count value from the store
+        });
+  
+        UseCartStore.setState({ cart: latestCartData });
+      }
+    } catch (error) {
+      console.error("Error fetching cart data:", error);
+    }
+  };
+
   const handleCoupon = () => {
     setIsInputOpen(!isInputOpen);
     setArrowDirection(
@@ -305,11 +339,11 @@ const Checkout: React.FC<Props> = ({
     setCoupon(e.target.value);
   };
 
+  
   return (
     <div className="flex justify-center">
       <div
-        className={`text-[14px] md:w-[300px] w-[340px] bg-white text-center justify-center checkout ${isInputOpen ? "h-[320px] mb-2" : "h-[280px]"
-          }`}
+        className={`text-[14px] md:w-[300px] w-[340px] bg-white text-center justify-center checkout ${isInputOpen ? "h-[320px] mb-2" : "h-[280px]"}`}
       >
         <div className="p-4 ">
           <div className="flex gap-4 mb-6">
@@ -345,7 +379,7 @@ const Checkout: React.FC<Props> = ({
               </div>
             )}
           </div>
-
+  
           <div className="">
             <div className="flex gap-4 justify-between mb-2">
               <div className="font-bold">Order summary</div>
@@ -357,10 +391,8 @@ const Checkout: React.FC<Props> = ({
               </div>
               <div className=" flex justify-between">
                 <div className="">Discount</div>
-                <div className="">
-                  <div className={`${discount > 0 && "text-[#11DCAD]"}`}>
-                    ₹ {discount}
-                  </div>
+                <div className={`${discount > 0 && "text-[#11DCAD]"}`}>
+                  ₹ {discount}
                 </div>
               </div>
               <div className="flex justify-between">
@@ -376,29 +408,36 @@ const Checkout: React.FC<Props> = ({
               <div> You Pay</div>
               <div className="text-2xl">₹{cartData?.results?.total_amount}</div>
             </div>
+              
             <button
-              type="submit"
-              onClick={() => {
-                if (selectedPaymentMode === "CashOnDelivery") {
-                  COD();
-                } else {
-                  razorPay();
-                }
-              }}
-              className={`w-full ${isActive && "active"
-                } bg-primary text-white font-semibold px-4 py-3 my-6 ${activeTab !== "Payment" && "bg-primary-400"
-                }`}
-              disabled={activeTab !== "Payment"}
-            >
-              {selectedPaymentMode === "OnlinePayment"
-                ? `You pay ₹${cartData?.results.total_amount}`
-                : "Confirm to place order"}
-            </button>
+  type="submit"
+  onClick={() => {
+    if (selectedPaymentMode === "CashOnDelivery") {
+      COD();
+    } else if (activeTab === "Cart") {
+      handClick("Address");
+    } else if (activeTab === "Address") {
+      handClick("Payment");
+    } else {
+      razorPay();
+    }
+  }}
+  className={`w-full ${isActive && "active"} bg-primary text-white font-semibold px-4 py-3 my-6`}
+  disabled={activeTab === "Payment" && !selectedPaymentMode}
+>
+  {activeTab === "Payment"
+    ? selectedPaymentMode
+      ? selectedPaymentMode === "OnlinePayment"
+        ? `You pay ₹${cartData?.results.total_amount}`
+        : "Confirm to place order"
+      : "Select payment method"
+    : "Continue"}
+</button>
           </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default Checkout;
+            };
+  
+  export default Checkout;

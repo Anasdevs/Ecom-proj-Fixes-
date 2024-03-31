@@ -1,5 +1,5 @@
 import React from "react";
-import "./tab.css"; 
+import "./tab.css";
 import Image from "next/image";
 
 interface TabProps {
@@ -7,22 +7,43 @@ interface TabProps {
   label: string;
   activeTab: string;
   onClick: (label: string) => void;
-  hasContent: boolean; 
+  hasContent: boolean;
 }
 
-const Tab: React.FC<TabProps> = ({ index, label, activeTab, onClick, hasContent }) => {
-  const isActive = activeTab === label; 
+const Tab: React.FC<TabProps> = ({
+  index,
+  label,
+  activeTab,
+  onClick,
+  hasContent,
+}) => {
+  const isActive = activeTab === label;
+  const isCompleted = index <= getTabIndex(activeTab);
+
+  function getTabIndex(tabLabel: string): number {
+    switch (tabLabel) {
+      case "Cart":
+        return 0;
+      case "Address":
+        return 1;
+      case "Payment":
+        return 2;
+      default:
+        return -1;
+    }
+  }
+
   return (
     <div
-      className={`tab ${
-        isActive ? "active" : ""
-      }  font-medium md:text-[14px] text-[10px] justify-center`}
+      className={`tab ${isActive ? "active" : ""} ${
+        isCompleted ? "completed" : ""
+      } font-medium md:text-[14px] text-[10px] justify-center`}
       onClick={() => onClick(label)}
     >
       <div className="flex gap-2 ">
         <div className=" justify-center ">
-        {hasContent ? (
-            <Image src="/assets/Success.svg" alt="Success" className="w-8 h-8" height={2} width={2}/>
+          {isActive || isCompleted ? (
+            <Image src="/assets/Success.svg" alt="Success" className="w-8 h-8" height={2} width={2} />
           ) : (
             <div className="w-8 flex items-center justify-center rounded-full bg-[#2222] ">
               {index}

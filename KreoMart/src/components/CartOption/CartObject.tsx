@@ -36,9 +36,9 @@ const CartObject: React.FC<Props> = ({ data, quantity, setQuantity }) => {
   //   getAllCart();
   // }, [quantity]);
 
-  useEffect(() => {
-    console.log("Cart State has changed:", cart);
-  }, [cart]);
+  // useEffect(() => {
+  //   console.log("Cart State has changed:", cart);
+  // }, [cart]);
 
   const handleRemove = async () => {
     try {
